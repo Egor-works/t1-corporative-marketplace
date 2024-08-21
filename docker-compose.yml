@@ -1,0 +1,62 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:15
+    container_name: postgres_db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: root
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  config-service:
+    build: .
+    container_name: config_service
+    command: java -jar /app/config-service/build/libs/config-service-1.0-SNAPSHOT.jar
+    depends_on:
+      - postgres
+    ports:
+      - "8888:8888"
+
+  discovery-service:
+    build: .
+    container_name: discovery-service
+    command: java -jar /app/discovery-service/build/libs/discovery-service-1.0-SNAPSHOT.jar
+    depends_on:
+      - config-service
+    ports:
+      - "8761:8761"
+
+  gateway-service:
+    build: .
+    container_name: gateway_service
+    command: java -jar /app/gateway-service/build/libs/gateway-service-1.0-SNAPSHOT.jar
+    depends_on:
+      - discovery-service
+    ports:
+      - "8765:8765"
+
+  cart-service:
+    build: .
+    container_name: cart-service
+    command: java -jar /app/cart-service/build/libs/cart-service-1.0-SNAPSHOT.jar
+    depends_on:
+      - gateway-service
+    ports:
+      - "8082:8082"
+
+  consumer-service:
+    build: .
+    container_name: consumer-service
+    command: java -jar /app/consumer-service/build/libs/consumer-service-1.0-SNAPSHOT.jar
+    depends_on:
+      - gateway-service
+    ports:
+      - "8085:8085"
+
+
+volumes:
+  postgres_data:
