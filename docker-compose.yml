@@ -14,7 +14,9 @@ services:
       - postgres_data:/var/lib/postgresql/data
 
   config-service:
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile
     container_name: config_service
     command: java -jar /app/config-service/build/libs/config-service-1.0-SNAPSHOT.jar
     restart: on-failure
@@ -24,7 +26,9 @@ services:
       - "8888:8888"
 
   discovery-service:
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile
     container_name: discovery-service
     command: java -jar /app/discovery-service/build/libs/discovery-service-1.0-SNAPSHOT.jar
     restart: on-failure
@@ -34,7 +38,9 @@ services:
       - "8761:8761"
 
   gateway-service:
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile
     container_name: gateway_service
     command: java -jar /app/gateway-service/build/libs/gateway-service-1.0-SNAPSHOT.jar
     restart: on-failure
@@ -44,7 +50,9 @@ services:
       - "8765:8765"
 
   cart-service:
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile
     container_name: cart-service
     command: java -jar /app/cart-service/build/libs/cart-service-1.0-SNAPSHOT.jar
     restart: on-failure
@@ -54,7 +62,9 @@ services:
       - "8082:8082"
 
   consumer-service:
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile
     container_name: consumer-service
     command: java -jar /app/consumer-service/build/libs/consumer-service-1.0-SNAPSHOT.jar
     restart: on-failure
