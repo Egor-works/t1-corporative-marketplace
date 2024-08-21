@@ -1,6 +1,6 @@
 package ru.corpmarket.gatewayservice.security;
 
-import lombok.RequiredArgsConstructor;
+/*import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -18,8 +18,10 @@ import javax.servlet.http.HttpServletResponse;
 @EnableWebSecurity
 @RequiredArgsConstructor
 @Configuration
+*
+ */
 public class SecurityTokenConfig {
-
+/*
     private final JwtConfig jwtConfig;
 
     @Bean
@@ -50,4 +52,5 @@ public class SecurityTokenConfig {
                         .anyRequest().authenticated());
         return http.build();
     }
+*/
 }

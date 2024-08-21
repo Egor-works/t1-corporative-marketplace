@@ -1,5 +1,5 @@
 package ru.corpmarket.gatewayservice.security;
-
+/*
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
@@ -28,7 +28,8 @@ import java.util.stream.Collectors;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class JwtTokenAuthenticationFilter extends OncePerRequestFilter {
+*/
+public class JwtTokenAuthenticationFilter{}/*extends OncePerRequestFilter {
 
     private final JwtConfig jwtConfig;
 
@@ -74,5 +75,6 @@ public class JwtTokenAuthenticationFilter extends OncePerRequestFilter {
 
         filterChain.doFilter(httpServletRequest, httpServletResponse);
     }
-
 }
+*/
+
