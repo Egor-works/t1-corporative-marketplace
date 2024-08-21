@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/auth-service/t1-corporative-marketplace.auth-service.main.iml" filepath="$PROJECT_DIR$/.idea/modules/auth-service/t1-corporative-marketplace.auth-service.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/cart-service/t1-corporative-marketplace.cart-service.main.iml" filepath="$PROJECT_DIR$/.idea/modules/cart-service/t1-corporative-marketplace.cart-service.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/consumer-service/t1-corporative-marketplace.consumer-service.main.iml" filepath="$PROJECT_DIR$/.idea/modules/consumer-service/t1-corporative-marketplace.consumer-service.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/gateway-service/t1-corporative-marketplace.gateway-service.main.iml" filepath="$PROJECT_DIR$/.idea/modules/gateway-service/t1-corporative-marketplace.gateway-service.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/order-service/t1-corporative-marketplace.order-service.main.iml" filepath="$PROJECT_DIR$/.idea/modules/order-service/t1-corporative-marketplace.order-service.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/product-service/t1-corporative-marketplace.product-service.main.iml" filepath="$PROJECT_DIR$/.idea/modules/product-service/t1-corporative-marketplace.product-service.main.iml" />
+    </modules>
+  </component>
+</project>

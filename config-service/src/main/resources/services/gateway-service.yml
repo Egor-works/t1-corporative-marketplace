@@ -1,0 +1,55 @@
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 20000
+
+ribbon:
+  ReadTimeout: 20000
+  ConnectTimeout: 20000
+
+security:
+  jwt:
+    uri: /auth/**
+    header: Authorization
+    prefix: Bearer
+    expirationMilliseconds: 300000
+    secret: secretKey
+
+zuul:
+  ignoredServices: '*'
+  host:
+    connect-timeout-millis: 20000
+    socket-timeout-millis: 20000
+
+  routes:
+    product-service:
+      path: /products/**
+      serviceId: product-service
+      stripPrefix: false
+
+    cart-service:
+      path: /carts/**
+      serviceId: cart-service
+      stripPrefix: false
+
+    order-service:
+      path: /orders/**
+      serviceId: deposit-service
+      stripPrefix: false
+
+    auth-server:
+      path: /auth/**
+      serviceId: auth-service
+      stripPrefix: false
+      sensitive-headers: Cookie,Set-Cookie
+
+    consumer-server:
+      path: /consumers/**
+      serviceId: consumer-service
+      stripPrefix: false
+
+server:
+  port: 8765

@@ -1,0 +1,45 @@
+plugins {
+    id 'java'
+    id "org.springframework.boot" version "2.6.15"
+    id 'io.spring.dependency-management' version '1.0.8.RELEASE'
+}
+
+group = 'ru.corpmarket'
+version = '1.0-SNAPSHOT'
+sourceCompatibility = 17
+
+repositories {
+    mavenCentral()
+}
+
+jar {
+    manifest {
+        attributes(
+                'Main-Class': 'ru.corpmarket.configservice.ConfigServiceApplication'
+        )
+    }
+}
+
+ext {
+    set('springCloudVersion', "2021.0.3")
+}
+
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+    }
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-webflux:2.7.0'
+    implementation 'org.springframework.boot:spring-boot-starter-actuator:3.3.2'
+    implementation "org.springframework.cloud:spring-cloud-starter-config"
+    implementation "org.springframework.cloud:spring-cloud-starter-openfeign"
+    implementation 'org.springframework.cloud:spring-cloud-starter-sleuth:3.1.5'
+    implementation 'org.springframework.cloud:spring-cloud-starter-netflix-hystrix:2.2.10.RELEASE'
+    implementation "org.springframework.cloud:spring-cloud-config-server"
+    implementation "org.springframework.boot:spring-boot-starter-security:2.3.2.RELEASE"
+    testImplementation "junit:junit:4.13"
+    testImplementation "org.junit.jupiter:junit-jupiter:5.6.0"
+    testRuntimeOnly "org.junit.vintage:junit-vintage-engine:5.6.0"
+}

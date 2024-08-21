@@ -1,0 +1,24 @@
+spring:
+  jpa:
+    database: POSTGRESQL
+    properties.hibernate.temp.use_jdbc_metadata_defaults: false
+    hibernate:
+      ddl-auto: create
+    properties:
+  datasource:
+    platform: postgres
+    url: jdbc:postgresql://localhost:5432/order_service_database
+    username: postgres
+    password: root
+    driver-class-name: org.postgresql.Driver
+
+server:
+  servlet:
+    context-path: /orders
+  port: 8083
+
+kafka:
+  bootstrap-servers: localhost:9092
+  topic:
+    consumer:
+      order-clothes-topic: order-clothes-topic

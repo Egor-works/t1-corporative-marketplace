@@ -1,0 +1,49 @@
+plugins {
+    id 'java'
+    id "org.springframework.boot" version "2.6.15"
+    id 'io.spring.dependency-management' version '1.0.8.RELEASE'
+    id "io.freefair.lombok" version "8.7.1"
+}
+
+group 'ru.corpmarket'
+version '1.0-SNAPSHOT'
+sourceCompatibility = '17'
+
+repositories {
+    mavenCentral()
+}
+
+jar {
+    manifest {
+        attributes(
+                'Main-Class': 'ru.corpmarket.gatewayservice.GatewayServiceApplication'
+        )
+    }
+}
+
+ext {
+    set('springCloudVersion', "2021.0.3")
+}
+
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+    }
+}
+
+dependencies {
+    implementation 'org.springframework.cloud:spring-cloud-starter-netflix-zuul:2.2.9.RELEASE'
+    implementation "org.springframework.cloud:spring-cloud-starter-config"
+    implementation "org.springframework.cloud:spring-cloud-starter"
+    implementation "org.springframework.cloud:spring-cloud-starter-netflix-eureka-client"
+    implementation "org.springframework.cloud:spring-cloud-starter-sleuth:3.1.5"
+    implementation 'org.springframework.security:spring-security-core:5.8.11'
+    implementation 'org.springframework.security:spring-security-web:5.8.11'
+    implementation 'org.springframework.security:spring-security-config:5.8.11'
+    implementation('org.springframework.cloud:spring-cloud-starter-bootstrap')
+    implementation 'io.jsonwebtoken:jjwt-api:0.12.6'
+    compileOnly 'jakarta.servlet:jakarta.servlet-api:6.1.0'
+    runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.12.6'
+    runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.12.6'
+    testImplementation "junit:junit:4.1"
+}
