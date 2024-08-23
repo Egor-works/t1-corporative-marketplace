@@ -17,5 +17,3 @@ server:
     context-path: /consumers
   port: 8085
 
-documentation:
-  base-url: http://localhost:8080/consumers

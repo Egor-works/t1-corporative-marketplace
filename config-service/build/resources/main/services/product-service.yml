@@ -17,13 +17,4 @@ server:
     context-path: /products
   port: 8081
 
-documentation:
-  base-url: http://localhost:8080/products
 
-kafka:
-  bootstrap-servers: localhost:9092
-  consumer-group:
-    order-clothes: order-clothes
-  topic:
-    consumer:
-      order-clothes-topic: order-clothes-topic

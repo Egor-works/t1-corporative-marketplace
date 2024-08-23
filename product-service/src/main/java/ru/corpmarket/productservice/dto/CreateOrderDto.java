@@ -9,7 +9,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class KafkaOrderDto {
+public class CreateOrderDto {
 
     private UUID productId;
     private Integer count;

@@ -10,14 +10,6 @@ ribbon:
   ReadTimeout: 20000
   ConnectTimeout: 20000
 
-security:
-  jwt:
-    uri: /auth/**
-    header: Authorization
-    prefix: Bearer
-    expirationMilliseconds: 300000
-    secret: secretKey
-
 zuul:
   ignoredServices: '*'
   host:
@@ -37,14 +29,8 @@ zuul:
 
     order-service:
       path: /orders/**
-      serviceId: deposit-service
+      serviceId: order-service
       stripPrefix: false
-
-    auth-server:
-      path: /auth/**
-      serviceId: auth-service
-      stripPrefix: false
-      sensitive-headers: Cookie,Set-Cookie
 
     consumer-server:
       path: /consumers/**

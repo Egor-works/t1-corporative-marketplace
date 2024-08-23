@@ -1,5 +1,5 @@
 # Используем официальный образ с OpenJDK 17
-FROM openjdk:17-jdk-slim
+FROM openjdk:8-jdk-slim
 
 # Зависимости для Gradle
 RUN apt install findutils

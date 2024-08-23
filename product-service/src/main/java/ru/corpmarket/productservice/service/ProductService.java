@@ -4,7 +4,7 @@ import javassist.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import ru.corpmarket.productservice.dto.KafkaOrderDto;
+import ru.corpmarket.productservice.dto.CreateOrderDto;
 import ru.corpmarket.productservice.dto.ProductDto;
 
 import ru.corpmarket.productservice.exception.RunOutProductException;
@@ -26,7 +26,12 @@ public class ProductService {
 
     public Product findByProductId(UUID id) throws NotFoundException {
         return productRepository.findById(id).orElseThrow(() ->
-                new NotFoundException(String.format("Clothes with id %s is not found", id)));
+                new NotFoundException(String.format("Product with id %s is not found", id)));
+    }
+
+    public Product findByProductName(String name) throws NotFoundException{
+        return productRepository.findByName(name).orElseThrow(() ->
+                new NotFoundException(String.format("Product with name %s is not found", name)));
     }
 
     public List<Product> findAllProduct(){
@@ -51,7 +56,7 @@ public class ProductService {
         Product clothes = productRepository.findById(productId).orElseThrow(() ->
                 new NotFoundException(String.format("Clothes with id %s is not found", productId)));
 
-        if (Objects.nonNull(clothesDTO.getColor()) && !clothesDTO.getColor().equals("")) {
+        if (Objects.nonNull(clothesDTO.getColor()) && !clothesDTO.getColor().isEmpty()) {
             clothes.setColor(clothesDTO.getColor());
         }
         if (Objects.nonNull(clothesDTO.getSize())) {
@@ -70,11 +75,11 @@ public class ProductService {
     }
 
 
-    public Product updateProductCount(KafkaOrderDto kafkaOrderDto) throws NotFoundException, RunOutProductException {
-        Product product = productRepository.findById(kafkaOrderDto.getProductId()).orElseThrow(() ->
-                new NotFoundException(String.format("Clothes with id %s is not found", kafkaOrderDto.getProductId())));
-        if (product.getCount() >= kafkaOrderDto.getCount()) {
-            product.setCount(product.getCount() - kafkaOrderDto.getCount());
+    public Product updateProductToOrderCount(CreateOrderDto createOrderDto) throws NotFoundException, RunOutProductException {
+        Product product = productRepository.findById(createOrderDto.getProductId()).orElseThrow(() ->
+                new NotFoundException(String.format("Clothes with id %s is not found", createOrderDto.getProductId())));
+        if (product.getCount() >= createOrderDto.getCount()) {
+            product.setCount(product.getCount() - createOrderDto.getCount());
         }else throw new RunOutProductException("Product has done");
         return productRepository.save(product);
     }
