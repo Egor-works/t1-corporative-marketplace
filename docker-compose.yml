@@ -2,7 +2,7 @@ services:
   postgres:
     image: postgres:15
     container_name: postgres_db
-    restart: on-failure
+    restart: unless-stopped
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: root
@@ -17,7 +17,7 @@ services:
       dockerfile: Dockerfile
     container_name: config_service
     command: bash -c "java -jar /app/config-service/build/libs/config-service-1.0-SNAPSHOT.jar"
-    restart: on-failure
+    restart: unless-stopped
     depends_on:
       - postgres
     ports:
@@ -29,7 +29,7 @@ services:
       dockerfile: Dockerfile
     container_name: discovery-service
     command: bash -c "sleep 15 && java -jar /app/discovery-service/build/libs/discovery-service-1.0-SNAPSHOT.jar"
-    restart: on-failure
+    restart: unless-stopped
     depends_on:
       - config-service
     ports:
@@ -41,7 +41,7 @@ services:
       dockerfile: Dockerfile
     container_name: gateway_service
     command: bash -c "sleep 30 && java -jar /app/gateway-service/build/libs/gateway-service-1.0-SNAPSHOT.jar"
-    restart: on-failure
+    restart: unless-stopped
     depends_on:
       - discovery-service
     ports:
@@ -53,7 +53,7 @@ services:
       dockerfile: Dockerfile
     container_name: cart-service
     command: bash -c "sleep 30 && java -jar /app/cart-service/build/libs/cart-service-1.0-SNAPSHOT.jar"
-    restart: on-failure
+    restart: unless-stopped
     depends_on:
       - gateway-service
     ports:
@@ -71,7 +71,7 @@ services:
       dockerfile: Dockerfile
     container_name: consumer-service
     command: bash -c "sleep 30 && java -jar /app/consumer-service/build/libs/consumer-service-1.0-SNAPSHOT.jar"
-    restart: on-failure
+    restart: unless-stopped
     depends_on:
       - gateway-service
     ports:
@@ -89,7 +89,7 @@ services:
       dockerfile: Dockerfile
     container_name: product-service
     command: bash -c "sleep 30 && java -jar /app/product-service/build/libs/product-service-1.0-SNAPSHOT.jar"
-    restart: on-failure
+    restart: unless-stopped
     depends_on:
       - gateway-service
     ports:
@@ -107,7 +107,7 @@ services:
       dockerfile: Dockerfile
     container_name: order-service
     command: bash -c "sleep 30 && java -jar /app/order-service/build/libs/order-service-1.0-SNAPSHOT.jar"
-    restart: on-failure
+    restart: unless-stopped
     depends_on:
       - gateway-service
     ports:
