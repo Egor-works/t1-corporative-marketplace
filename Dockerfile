@@ -2,7 +2,7 @@
 FROM openjdk:8-jdk-slim
 
 # Зависимости для Gradle
-RUN apt install findutils
+RUN apt-get update && apt-get install -y curl findutils
 
 # Устанавливаем рабочую директорию внутри контейнера
 WORKDIR /app
