@@ -1,13 +1,13 @@
 plugins {
     id 'java'
-    id "org.springframework.boot" version "2.6.15"
+    id 'org.springframework.boot' version '2.3.2.RELEASE'
     id 'io.spring.dependency-management' version '1.0.8.RELEASE'
-    id "io.freefair.lombok" version "8.7.1"
-    id "io.swagger.core.v3.swagger-gradle-plugin" version "2.2.22"
-    id "org.springdoc.openapi-gradle-plugin" version "1.9.0"
+    id "io.freefair.lombok" version "5.1.0"
 }
 
+group 'ru.team29'
 version '1.0-SNAPSHOT'
+sourceCompatibility = '1.8'
 
 repositories {
     mavenCentral()
@@ -22,7 +22,7 @@ jar {
 }
 
 ext {
-    set('springCloudVersion', "2021.0.3")
+    set('springCloudVersion', "Hoxton.SR1")
 }
 
 dependencyManagement {
@@ -32,21 +32,16 @@ dependencyManagement {
 }
 
 dependencies {
-    implementation "org.springframework.boot:spring-boot-starter-web:2.6.14"
-    implementation "org.springframework.boot:spring-boot-starter-actuator:3.3.2"
-    implementation 'org.hibernate:hibernate-gradle-plugin:5.1.0.Final'
-
-    implementation "org.springframework.cloud:spring-cloud-starter-config"
+    implementation "org.springframework.boot:spring-boot-starter-web:2.3.2.RELEASE"
+    implementation "org.springframework.boot:spring-boot-starter-actuator:2.3.2.RELEASE"
     implementation "org.springframework.boot:spring-boot-starter-data-jpa"
+    implementation "org.springframework.cloud:spring-cloud-starter-config"
     implementation "org.springframework.cloud:spring-cloud-starter-openfeign"
     implementation "org.springframework.cloud:spring-cloud-starter-netflix-eureka-client"
-    implementation "org.springframework.cloud:spring-cloud-starter-sleuth:3.1.5"
-    implementation "org.springframework.cloud:spring-cloud-starter-netflix-hystrix:2.2.10.RELEASE"
-    implementation('org.springframework.cloud:spring-cloud-starter-bootstrap')
-    implementation 'org.postgresql:postgresql:42.7.2'
-    implementation "io.springfox:springfox-bean-validators:3.0.0"
-    implementation 'io.springfox:springfox-swagger2:2.9.2'
-    implementation 'org.springdoc:springdoc-openapi-data-rest:1.7.0'
-    implementation 'org.javassist:javassist:3.28.0-GA'
+    implementation "org.springframework.cloud:spring-cloud-starter-sleuth"
+    implementation "org.springframework.cloud:spring-cloud-starter-netflix-hystrix"
+    implementation "org.postgresql:postgresql:42.2.5"
     testImplementation "junit:junit:4.1"
+    implementation 'com.darylteo.gradle:javassist-plugin:0.4.1'
+    implementation 'org.springframework.cloud:spring-cloud-starter-bootstrap:3.0.3'
 }

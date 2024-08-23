@@ -18,8 +18,8 @@ public class GlobalExceptionHandler {
                 .body(new ApiErrorDto(e.getMessage()));
     }
 
-    @ExceptionHandler(NotFoundException.class)
-    public ResponseEntity<ApiErrorDto> runOutProductException(NotFoundException e) {
+    @ExceptionHandler(RunOutProductException.class)
+    public ResponseEntity<ApiErrorDto> runOutProductException(RunOutProductException e) {
         return ResponseEntity
                 .status(HttpStatus.NOT_ACCEPTABLE)
                 .body(new ApiErrorDto(e.getMessage()));

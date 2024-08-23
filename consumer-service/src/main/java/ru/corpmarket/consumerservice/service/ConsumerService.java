@@ -10,6 +10,7 @@ import ru.corpmarket.consumerservice.exception.NotUniqueEmailException;
 import ru.corpmarket.consumerservice.model.Consumer;
 import ru.corpmarket.consumerservice.repository.ConsumerRepository;
 
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -28,6 +29,10 @@ public class ConsumerService {
     public Consumer findByEmail(String email) throws NotFoundException {
         return consumerRepository.findCustomerByEmail(email).orElseThrow(() ->
                 new NotFoundException(String.format("User with email %s is not found", email)));
+    }
+
+    public List<Consumer> getAll() {
+        return consumerRepository.findAll();
     }
 
     public Consumer saveCustomer(ConsumerDto consumerDto) throws NotUniqueEmailException {

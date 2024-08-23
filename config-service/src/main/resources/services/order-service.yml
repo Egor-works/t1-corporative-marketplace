@@ -11,14 +11,13 @@ spring:
     username: postgres
     password: root
     driver-class-name: org.postgresql.Driver
+  main:
+    allow-bean-definition-overriding: true
 
 server:
   servlet:
     context-path: /orders
   port: 8083
 
-kafka:
-  bootstrap-servers: localhost:9092
-  topic:
-    consumer:
-      order-clothes-topic: order-clothes-topic
+
+
