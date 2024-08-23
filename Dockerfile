@@ -14,7 +14,7 @@ COPY gradle /app/gradle
 # Копируем файлы проекта
 COPY . .
 
-# Даем права на выполнение Gradle wrapper м start.sh
+# Даем права на выполнение Gradle wrapper м wait-for.sh
 RUN chmod +x gradlew
 
 # Сборка проекта

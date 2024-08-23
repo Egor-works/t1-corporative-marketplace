@@ -16,7 +16,7 @@ services:
       context: .
       dockerfile: Dockerfile
     container_name: config_service
-    command: java -jar /app/config-service/build/libs/config-service-1.0-SNAPSHOT.jar
+    command: bash -c "java -jar /app/config-service/build/libs/config-service-1.0-SNAPSHOT.jar"
     restart: on-failure
     depends_on:
       - postgres
@@ -28,7 +28,7 @@ services:
       context: .
       dockerfile: Dockerfile
     container_name: discovery-service
-    command: java -jar /app/discovery-service/build/libs/discovery-service-1.0-SNAPSHOT.jar
+    command: bash -c "sleep 15 && java -jar /app/discovery-service/build/libs/discovery-service-1.0-SNAPSHOT.jar"
     restart: on-failure
     depends_on:
       - config-service
@@ -40,7 +40,7 @@ services:
       context: .
       dockerfile: Dockerfile
     container_name: gateway_service
-    command: java -jar /app/gateway-service/build/libs/gateway-service-1.0-SNAPSHOT.jar
+    command: bash -c "sleep 30 && java -jar /app/gateway-service/build/libs/gateway-service-1.0-SNAPSHOT.jar"
     restart: on-failure
     depends_on:
       - discovery-service
@@ -52,72 +52,72 @@ services:
       context: .
       dockerfile: Dockerfile
     container_name: cart-service
-    command: java -jar /app/cart-service/build/libs/cart-service-1.0-SNAPSHOT.jar
+    command: bash -c "sleep 30 && java -jar /app/cart-service/build/libs/cart-service-1.0-SNAPSHOT.jar"
     restart: on-failure
     depends_on:
       - gateway-service
     ports:
       - "8082:8082"
-    healthcheck:
-      test: curl --fail http://localhost:8082/carts/ping || exit 1
-      interval: 60s
-      retries: 5
-      start_period: 40s
-      timeout: 10s
+#    healthcheck:
+#      test: curl --fail http://localhost:8082/carts/ping || exit 1
+#      interval: 60s
+#      retries: 5
+#      start_period: 40s
+#      timeout: 10s
 
   consumer-service:
     build:
       context: .
       dockerfile: Dockerfile
     container_name: consumer-service
-    command: java -jar /app/consumer-service/build/libs/consumer-service-1.0-SNAPSHOT.jar
+    command: bash -c "sleep 30 && java -jar /app/consumer-service/build/libs/consumer-service-1.0-SNAPSHOT.jar"
     restart: on-failure
     depends_on:
       - gateway-service
     ports:
       - "8085:8085"
-    healthcheck:
-      test: curl --fail http://localhost:8085/consumers/ping || exit 1
-      interval: 60s
-      retries: 5
-      start_period: 40s
-      timeout: 10s
+#    healthcheck:
+#      test: curl --fail http://localhost:8085/consumers/ping || exit 1
+#      interval: 60s
+#      retries: 5
+#      start_period: 40s
+#      timeout: 10s
 
   product-service:
     build:
       context: .
       dockerfile: Dockerfile
     container_name: product-service
-    command: java -jar /app/product-service/build/libs/product-service-1.0-SNAPSHOT.jar
+    command: bash -c "sleep 30 && java -jar /app/product-service/build/libs/product-service-1.0-SNAPSHOT.jar"
     restart: on-failure
     depends_on:
       - gateway-service
     ports:
       - "8081:8081"
-    healthcheck:
-      test: curl --fail http://localhost:8081/products/ping || exit 1
-      interval: 60s
-      retries: 5
-      start_period: 40s
-      timeout: 10s
+#    healthcheck:
+#      test: curl --fail http://localhost:8081/products/ping || exit 1
+#      interval: 60s
+#      retries: 5
+#      start_period: 40s
+#      timeout: 10s
 
   order-service:
     build:
       context: .
       dockerfile: Dockerfile
     container_name: order-service
-    command: java -jar /app/order-service/build/libs/order-service-1.0-SNAPSHOT.jar
+    command: bash -c "sleep 30 && java -jar /app/order-service/build/libs/order-service-1.0-SNAPSHOT.jar"
     restart: on-failure
     depends_on:
       - gateway-service
     ports:
       - "8083:8083"
-    healthcheck:
-      test: curl --fail http://localhost:8083/orders/ping || exit 1
-      interval: 60s
-      retries: 5
-      start_period: 40s
-      timeout: 10s
+#    healthcheck:
+#      test: curl --fail http://localhost:8083/orders/ping || exit 1
+#      interval: 60s
+#      retries: 5
+#      start_period: 40s
+#      timeout: 10s
 
 
 volumes:
