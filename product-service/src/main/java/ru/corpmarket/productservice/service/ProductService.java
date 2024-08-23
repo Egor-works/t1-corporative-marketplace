@@ -56,7 +56,7 @@ public class ProductService {
         Product clothes = productRepository.findById(productId).orElseThrow(() ->
                 new NotFoundException(String.format("Clothes with id %s is not found", productId)));
 
-        if (Objects.nonNull(clothesDTO.getColor()) && !clothesDTO.getColor().equals("")) {
+        if (Objects.nonNull(clothesDTO.getColor()) && !clothesDTO.getColor().isEmpty()) {
             clothes.setColor(clothesDTO.getColor());
         }
         if (Objects.nonNull(clothesDTO.getSize())) {
