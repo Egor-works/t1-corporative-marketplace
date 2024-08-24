@@ -36,9 +36,9 @@ public class ProductController {
         return ResponseEntity.ok(productService.findByProductId(productId));
     }
 
-    @GetMapping(value = "/{productName}", produces = "application/json")
+    @GetMapping(value = "/", produces = "application/json")
     @ResponseBody
-    public ResponseEntity<Product> getProductByName(@PathVariable String productName)
+    public ResponseEntity<Product> getProductByName(@RequestParam("productName") String productName)
             throws NotFoundException {
         return ResponseEntity.ok(productService.findByProductName(productName));
     }

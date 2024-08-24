@@ -64,7 +64,7 @@ public class ConsumerController {
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping(produces = "application/json")
+    @GetMapping(value = "/email/", produces = "application/json")
     @ResponseBody
     public ResponseEntity<Consumer> getCustomerByEmail(@RequestParam("e") String email) throws NotFoundException {
         return ResponseEntity.ok(customerService.findByEmail(email));
