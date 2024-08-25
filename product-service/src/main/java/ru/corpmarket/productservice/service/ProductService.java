@@ -29,7 +29,7 @@ public class ProductService {
                 new NotFoundException(String.format("Product with id %s is not found", id)));
     }
 
-    public Product findByProductName(String name) throws NotFoundException{
+    public List<Product> findByProductName(String name) throws NotFoundException{
         return productRepository.findByName(name).orElseThrow(() ->
                 new NotFoundException(String.format("Product with name %s is not found", name)));
     }

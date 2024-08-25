@@ -38,7 +38,7 @@ public class ProductController {
 
     @GetMapping(value = "/", produces = "application/json")
     @ResponseBody
-    public ResponseEntity<Product> getProductByName(@RequestParam("productName") String productName)
+    public ResponseEntity<List<Product>> getProductByName(@RequestParam("productName") String productName)
             throws NotFoundException {
         return ResponseEntity.ok(productService.findByProductName(productName));
     }

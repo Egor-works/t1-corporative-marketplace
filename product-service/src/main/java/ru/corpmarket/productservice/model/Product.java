@@ -8,7 +8,7 @@ import java.util.UUID;
 
 
 @Entity
-@Table(name = "clothes")
+@Table(name = "products")
 @Getter
 @Setter
 @AllArgsConstructor
