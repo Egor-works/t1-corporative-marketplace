@@ -26,3 +26,17 @@ docker push jubastik/29_backend_t1:$TAG || handle_error
 docker push jubastik/29_backend_t1:latest || handle_error
 
 echo "Операция успешно завершена"
+
+# Запрос на обновление образа на сервере
+read -p "Запустить обновление образа на сервере? [y/N] " choice
+case "$choice" in
+  y|Y )
+    echo "Отправка запроса на обновление..."
+    sleep 3
+    curl -X POST "https://portainer.gortem.ru/api/stacks/webhooks/44d17e39-3486-4b16-bbfd-0cfc2a4cf6aa" || handle_error
+    echo "Запрос на обновление отправлен успешно"
+    ;;
+  * )
+    echo "Обновление на сервере не запущено"
+    ;;
+esac
