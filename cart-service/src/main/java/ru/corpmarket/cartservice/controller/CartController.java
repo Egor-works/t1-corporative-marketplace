@@ -17,6 +17,7 @@ import java.util.UUID;
 @RestController
 @RequiredArgsConstructor
 @Slf4j
+@CrossOrigin
 public class CartController {
     @GetMapping(value = "/ping", produces = "application/json")
     @ResponseBody

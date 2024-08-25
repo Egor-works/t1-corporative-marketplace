@@ -18,7 +18,9 @@ spring:
           '[/**]':
             allowedOrigins: "*"
             allowedHeaders: "*"
-            allowedMethods: "*"
+            allowedMethods:
+              - GET
+              - POST
 
 zuul:
   ignoredServices: '*'
