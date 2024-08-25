@@ -16,6 +16,7 @@ import java.util.UUID;
 @RestController
 @RequiredArgsConstructor
 @Slf4j
+@CrossOrigin
 public class OrderController {
 
     private final OrderService orderService;

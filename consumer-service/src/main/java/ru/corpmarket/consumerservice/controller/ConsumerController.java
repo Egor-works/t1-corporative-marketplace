@@ -19,6 +19,7 @@ import java.util.UUID;
 @RestController
 @RequiredArgsConstructor
 @Slf4j
+@CrossOrigin
 public class ConsumerController {
 
     private final ConsumerService customerService;
