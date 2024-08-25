@@ -10,6 +10,16 @@ ribbon:
   ReadTimeout: 20000
   ConnectTimeout: 20000
 
+spring:
+  cloud:
+    gateway:
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins: "http://localhost:3000"
+            allowedHeaders: "*"
+            allowedMethods: "*"
+
 zuul:
   ignoredServices: '*'
   host:
