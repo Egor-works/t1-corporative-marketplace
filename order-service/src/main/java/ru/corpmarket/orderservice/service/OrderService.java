@@ -71,7 +71,7 @@ public class OrderService {
         Order order = orderRepository.findById(id).orElseThrow(() ->
                 new NotFoundException(String.format("Order with id %s id not found", id)));
         order.setStatus(orderStatusDto.getStatus());
-        return order;
+        return orderRepository.save(order);
     }
 
     public void deleteOrder(UUID id) throws NotFoundException{
