@@ -21,7 +21,7 @@ docker build -t 29_backend_t1 . || handle_error
 docker tag 29_backend_t1 jubastik/29_backend_t1:$TAG || handle_error
 docker tag 29_backend_t1 jubastik/29_backend_t1:latest || handle_error
 
- Публикация образов на Docker Hub
+# Публикация образов на Docker Hub
 docker push jubastik/29_backend_t1:$TAG || handle_error
 docker push jubastik/29_backend_t1:latest || handle_error
 
