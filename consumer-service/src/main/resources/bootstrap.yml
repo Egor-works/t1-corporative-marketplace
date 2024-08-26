@@ -3,12 +3,7 @@ spring:
     name: consumer-service
   cloud:
     config:
-      uri: http://config-service:8888
+      uri: ${CONFIG_SERVICE_URI}
       fail-fast: true
-      password: admin
-      username: user
-      retry:
-        initial-interval: 5000
-        max-attempts: 6
-        max-interval: 15000
-        multiplier: 1.5
+      password: ${CONFIG_SERVICE_PASSWORD}
+      username: ${CONFIG_SERVICE_USER}

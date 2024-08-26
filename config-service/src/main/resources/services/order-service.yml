@@ -7,9 +7,9 @@ spring:
     properties:
   datasource:
     platform: postgres
-    url: jdbc:postgresql://postgres_db:5432/order_service_database
-    username: postgres
-    password: root
+    url: ${POSTGRESQL_DB_URL}/order_service_database
+    username: ${POSTGRESQL_DB_USER}
+    password: ${POSTGRESQL_DB_PASSWORD}
     driver-class-name: org.postgresql.Driver
   main:
     allow-bean-definition-overriding: true
@@ -17,7 +17,7 @@ spring:
 server:
   servlet:
     context-path: /orders
-  port: 8083
+  port: ${ORDER_SERVICE_PORT}
 
 
 

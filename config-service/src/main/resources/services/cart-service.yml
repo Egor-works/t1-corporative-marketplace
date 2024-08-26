@@ -7,12 +7,12 @@ spring:
     properties:
   datasource:
     platform: postgres
-    url: jdbc:postgresql://postgres_db:5432/cart_service_database
-    username: postgres
-    password: root
+    url: ${POSTGRESQL_DB_URL}/cart_service_database
+    username: ${POSTGRESQL_DB_USER}
+    password: ${POSTGRESQL_DB_PASSWORD}
     driver-class-name: org.postgresql.Driver
 
 server:
   servlet:
     context-path: /carts
-  port: 8082
+  port: ${CART_SERVICE_PORT}

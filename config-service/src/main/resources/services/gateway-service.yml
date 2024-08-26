@@ -50,4 +50,4 @@ zuul:
       stripPrefix: false
 
 server:
-  port: 8765
+  port: ${GATEWAY_SERVICE_PORT}
