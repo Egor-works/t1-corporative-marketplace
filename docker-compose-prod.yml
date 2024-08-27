@@ -6,16 +6,13 @@ services:
     environment:
       POSTGRES_USER: ${POSTGRESQL_DB_USER}
       POSTGRES_PASSWORD: ${POSTGRESQL_DB_PASSWORD}
-    env_file: ".env.docker"
     ports:
-      - "5432:5432"
+      - "47124:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
   config-service:
-    build:
-      context: .
-      dockerfile: Dockerfile
+    image: jubastik/29_backend_t1
     container_name: config_service
     command: java -jar /app/config-service.jar
     restart: unless-stopped
@@ -23,7 +20,6 @@ services:
       CONFIG_SERVICE_PORT: ${CONFIG_SERVICE_PORT}
       CONFIG_SERVICE_USER: ${CONFIG_SERVICE_USER}
       CONFIG_SERVICE_PASSWORD: ${CONFIG_SERVICE_PASSWORD}
-    env_file: ".env.docker"
     depends_on:
       - postgres
     ports:
@@ -31,9 +27,7 @@ services:
     mem_limit: 512m
 
   discovery-service:
-    build:
-      context: .
-      dockerfile: Dockerfile
+    image: jubastik/29_backend_t1
     container_name: discovery-service
     command: java -jar /app/discovery-service.jar
     restart: unless-stopped
@@ -43,7 +37,6 @@ services:
       CONFIG_SERVICE_URI: ${CONFIG_SERVICE_URI}
       CONFIG_SERVICE_USER: ${CONFIG_SERVICE_USER}
       CONFIG_SERVICE_PASSWORD: ${CONFIG_SERVICE_PASSWORD}
-    env_file: ".env.docker"
     depends_on:
       - config-service
     ports:
@@ -51,9 +44,7 @@ services:
     mem_limit: 512m
 
   gateway-service:
-    build:
-      context: .
-      dockerfile: Dockerfile
+    image: jubastik/29_backend_t1
     container_name: gateway_service
     command: java -jar /app/gateway-service.jar
     restart: unless-stopped
@@ -63,7 +54,6 @@ services:
       CONFIG_SERVICE_URI: ${CONFIG_SERVICE_URI}
       CONFIG_SERVICE_USER: ${CONFIG_SERVICE_USER}
       CONFIG_SERVICE_PASSWORD: ${CONFIG_SERVICE_PASSWORD}
-    env_file: ".env.docker"
     depends_on:
       - discovery-service
     ports:
@@ -71,9 +61,7 @@ services:
     mem_limit: 512m
 
   cart-service:
-    build:
-      context: .
-      dockerfile: Dockerfile
+    image: jubastik/29_backend_t1
     container_name: cart-service
     command: java -jar /app/cart-service.jar
     restart: unless-stopped
@@ -86,17 +74,12 @@ services:
       POSTGRESQL_DB_URL: ${POSTGRESQL_DB_URL}
       POSTGRESQL_DB_USER: ${POSTGRESQL_DB_USER}
       POSTGRESQL_DB_PASSWORD: ${POSTGRESQL_DB_PASSWORD}
-    env_file: ".env.docker"
     depends_on:
       - gateway-service
-    ports:
-      - "8082:8082"
     mem_limit: 512m
 
   consumer-service:
-    build:
-      context: .
-      dockerfile: Dockerfile
+    image: jubastik/29_backend_t1
     container_name: consumer-service
     command: java -jar /app/consumer-service.jar
     restart: unless-stopped
@@ -109,17 +92,12 @@ services:
       POSTGRESQL_DB_URL: ${POSTGRESQL_DB_URL}
       POSTGRESQL_DB_USER: ${POSTGRESQL_DB_USER}
       POSTGRESQL_DB_PASSWORD: ${POSTGRESQL_DB_PASSWORD}
-    env_file: ".env.docker"
     depends_on:
       - gateway-service
-    ports:
-      - "8085:8085"
     mem_limit: 512m
 
   product-service:
-    build:
-      context: .
-      dockerfile: Dockerfile
+    image: jubastik/29_backend_t1
     container_name: product-service
     command: java -jar /app/product-service.jar
     restart: unless-stopped
@@ -132,17 +110,12 @@ services:
       POSTGRESQL_DB_URL: ${POSTGRESQL_DB_URL}
       POSTGRESQL_DB_USER: ${POSTGRESQL_DB_USER}
       POSTGRESQL_DB_PASSWORD: ${POSTGRESQL_DB_PASSWORD}
-    env_file: ".env.docker"
     depends_on:
       - gateway-service
-    ports:
-      - "8081:8081"
     mem_limit: 512m
 
   order-service:
-    build:
-      context: .
-      dockerfile: Dockerfile
+    image: jubastik/29_backend_t1
     container_name: order-service
     command: java -jar /app/order-service.jar
     restart: unless-stopped
@@ -155,11 +128,8 @@ services:
       POSTGRESQL_DB_URL: ${POSTGRESQL_DB_URL}
       POSTGRESQL_DB_USER: ${POSTGRESQL_DB_USER}
       POSTGRESQL_DB_PASSWORD: ${POSTGRESQL_DB_PASSWORD}
-    env_file: ".env.docker"
     depends_on:
       - gateway-service
-    ports:
-      - "8083:8083"
     mem_limit: 512m
 
 
