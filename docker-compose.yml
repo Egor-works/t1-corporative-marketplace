@@ -3,9 +3,6 @@ services:
     image: postgres:15
     container_name: postgres_db
     restart: unless-stopped
-    environment:
-      POSTGRES_USER: ${POSTGRESQL_DB_USER}
-      POSTGRES_PASSWORD: ${POSTGRESQL_DB_PASSWORD}
     env_file: ".env.docker"
     ports:
       - "5432:5432"
@@ -19,10 +16,6 @@ services:
     container_name: config_service
     command: java -jar /app/config-service.jar
     restart: unless-stopped
-    environment:
-      CONFIG_SERVICE_PORT: ${CONFIG_SERVICE_PORT}
-      CONFIG_SERVICE_USER: ${CONFIG_SERVICE_USER}
-      CONFIG_SERVICE_PASSWORD: ${CONFIG_SERVICE_PASSWORD}
     env_file: ".env.docker"
     depends_on:
       - postgres
@@ -37,12 +30,6 @@ services:
     container_name: discovery-service
     command: java -jar /app/discovery-service.jar
     restart: unless-stopped
-    environment:
-      DISCOVERY_SERVICE_PORT: ${DISCOVERY_SERVICE_PORT}
-      EUREKA_SERVICE_URI: ${EUREKA_SERVICE_URI}
-      CONFIG_SERVICE_URI: ${CONFIG_SERVICE_URI}
-      CONFIG_SERVICE_USER: ${CONFIG_SERVICE_USER}
-      CONFIG_SERVICE_PASSWORD: ${CONFIG_SERVICE_PASSWORD}
     env_file: ".env.docker"
     depends_on:
       - config-service
@@ -57,12 +44,6 @@ services:
     container_name: gateway_service
     command: java -jar /app/gateway-service.jar
     restart: unless-stopped
-    environment:
-      DISCOVERY_SERVICE_PORT: ${DISCOVERY_SERVICE_PORT}
-      EUREKA_SERVICE_URI: ${EUREKA_SERVICE_URI}
-      CONFIG_SERVICE_URI: ${CONFIG_SERVICE_URI}
-      CONFIG_SERVICE_USER: ${CONFIG_SERVICE_USER}
-      CONFIG_SERVICE_PASSWORD: ${CONFIG_SERVICE_PASSWORD}
     env_file: ".env.docker"
     depends_on:
       - discovery-service
@@ -77,15 +58,6 @@ services:
     container_name: cart-service
     command: java -jar /app/cart-service.jar
     restart: unless-stopped
-    environment:
-      CART_SERVICE_PORT: ${CART_SERVICE_PORT}
-      EUREKA_SERVICE_URI: ${EUREKA_SERVICE_URI}
-      CONFIG_SERVICE_URI: ${CONFIG_SERVICE_URI}
-      CONFIG_SERVICE_USER: ${CONFIG_SERVICE_USER}
-      CONFIG_SERVICE_PASSWORD: ${CONFIG_SERVICE_PASSWORD}
-      POSTGRESQL_DB_URL: ${POSTGRESQL_DB_URL}
-      POSTGRESQL_DB_USER: ${POSTGRESQL_DB_USER}
-      POSTGRESQL_DB_PASSWORD: ${POSTGRESQL_DB_PASSWORD}
     env_file: ".env.docker"
     depends_on:
       - gateway-service
@@ -100,15 +72,6 @@ services:
     container_name: consumer-service
     command: java -jar /app/consumer-service.jar
     restart: unless-stopped
-    environment:
-      CONSUMER_SERVICE_PORT: ${CONSUMER_SERVICE_PORT}
-      EUREKA_SERVICE_URI: ${EUREKA_SERVICE_URI}
-      CONFIG_SERVICE_URI: ${CONFIG_SERVICE_URI}
-      CONFIG_SERVICE_USER: ${CONFIG_SERVICE_USER}
-      CONFIG_SERVICE_PASSWORD: ${CONFIG_SERVICE_PASSWORD}
-      POSTGRESQL_DB_URL: ${POSTGRESQL_DB_URL}
-      POSTGRESQL_DB_USER: ${POSTGRESQL_DB_USER}
-      POSTGRESQL_DB_PASSWORD: ${POSTGRESQL_DB_PASSWORD}
     env_file: ".env.docker"
     depends_on:
       - gateway-service
@@ -123,15 +86,6 @@ services:
     container_name: product-service
     command: java -jar /app/product-service.jar
     restart: unless-stopped
-    environment:
-      PRODUCT_SERVICE_PORT: ${PRODUCT_SERVICE_PORT}
-      EUREKA_SERVICE_URI: ${EUREKA_SERVICE_URI}
-      CONFIG_SERVICE_URI: ${CONFIG_SERVICE_URI}
-      CONFIG_SERVICE_USER: ${CONFIG_SERVICE_USER}
-      CONFIG_SERVICE_PASSWORD: ${CONFIG_SERVICE_PASSWORD}
-      POSTGRESQL_DB_URL: ${POSTGRESQL_DB_URL}
-      POSTGRESQL_DB_USER: ${POSTGRESQL_DB_USER}
-      POSTGRESQL_DB_PASSWORD: ${POSTGRESQL_DB_PASSWORD}
     env_file: ".env.docker"
     depends_on:
       - gateway-service
@@ -146,15 +100,6 @@ services:
     container_name: order-service
     command: java -jar /app/order-service.jar
     restart: unless-stopped
-    environment:
-      ORDER_SERVICE_PORT: ${ORDER_SERVICE_PORT}
-      EUREKA_SERVICE_URI: ${EUREKA_SERVICE_URI}
-      CONFIG_SERVICE_URI: ${CONFIG_SERVICE_URI}
-      CONFIG_SERVICE_USER: ${CONFIG_SERVICE_USER}
-      CONFIG_SERVICE_PASSWORD: ${CONFIG_SERVICE_PASSWORD}
-      POSTGRESQL_DB_URL: ${POSTGRESQL_DB_URL}
-      POSTGRESQL_DB_USER: ${POSTGRESQL_DB_USER}
-      POSTGRESQL_DB_PASSWORD: ${POSTGRESQL_DB_PASSWORD}
     env_file: ".env.docker"
     depends_on:
       - gateway-service
