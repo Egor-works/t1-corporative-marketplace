@@ -13,6 +13,8 @@ import ru.corpmarket.consumerservice.model.Consumer;
 import ru.corpmarket.consumerservice.service.ConsumerService;
 
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.List;
 import java.util.UUID;
 
@@ -26,8 +28,8 @@ public class ConsumerController {
 
     @GetMapping(value = "/ping", produces = "application/json")
     @ResponseBody
-    public ResponseEntity<String> getPing(){
-        return ResponseEntity.ok("pong");
+    public ResponseEntity<String> getPing() throws UnknownHostException {
+        return ResponseEntity.ok("ping " + InetAddress.getLocalHost().getHostAddress());
     }
 
     @GetMapping(value = "/all", produces = "application/json")

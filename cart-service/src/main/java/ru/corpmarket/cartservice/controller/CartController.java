@@ -11,6 +11,8 @@ import ru.corpmarket.cartservice.dto.ProductCountDto;
 import ru.corpmarket.cartservice.model.Cart;
 import ru.corpmarket.cartservice.service.CartService;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.List;
 import java.util.UUID;
 
@@ -21,8 +23,8 @@ import java.util.UUID;
 public class CartController {
     @GetMapping(value = "/ping", produces = "application/json")
     @ResponseBody
-    public ResponseEntity<String> getPing(){
-        return ResponseEntity.ok("pong");
+    public ResponseEntity<String> getPing() throws UnknownHostException {
+        return ResponseEntity.ok("ping " + InetAddress.getLocalHost().getHostAddress());
     }
 
     private final CartService cartService;

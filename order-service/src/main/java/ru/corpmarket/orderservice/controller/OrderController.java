@@ -10,6 +10,8 @@ import ru.corpmarket.orderservice.dto.OrderStatusDto;
 import ru.corpmarket.orderservice.model.Order;
 import ru.corpmarket.orderservice.service.OrderService;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.List;
 import java.util.UUID;
 
@@ -23,8 +25,8 @@ public class OrderController {
 
     @GetMapping(value = "/ping", produces = "application/json")
     @ResponseBody
-    public ResponseEntity<String> getPing(){
-        return ResponseEntity.ok("pong");
+    public ResponseEntity<String> getPing() throws UnknownHostException {
+        return ResponseEntity.ok("ping " + InetAddress.getLocalHost().getHostAddress());
     }
 
     @GetMapping(value = "/all", produces = "application/json")

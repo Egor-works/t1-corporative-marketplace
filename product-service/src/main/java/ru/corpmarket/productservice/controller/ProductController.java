@@ -13,6 +13,8 @@ import ru.corpmarket.productservice.exception.RunOutProductException;
 import ru.corpmarket.productservice.model.Product;
 import ru.corpmarket.productservice.service.ProductService;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.List;
 import java.util.UUID;
 
@@ -26,8 +28,8 @@ public class ProductController {
 
     @GetMapping(value = "/ping", produces = "application/json")
     @ResponseBody
-    public ResponseEntity<String> getPing(){
-        return ResponseEntity.ok("pong");
+    public ResponseEntity<String> getPing() throws UnknownHostException {
+        return ResponseEntity.ok("ping " + InetAddress.getLocalHost().getHostAddress());
     }
 
     @GetMapping(value = "/{productId}", produces = "application/json")
