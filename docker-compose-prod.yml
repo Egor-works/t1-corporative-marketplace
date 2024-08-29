@@ -1,0 +1,161 @@
+services:
+  postgres:
+    image: postgres:15
+    container_name: postgres_db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRESQL_DB_USER}
+      POSTGRES_PASSWORD: ${POSTGRESQL_DB_PASSWORD}
+    ports:
+      - "47124:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  config-service:
+    image: jubastik/29_backend_t1
+    container_name: config_service
+    command: java -jar /app/config-service.jar
+    restart: unless-stopped
+    environment:
+      CONFIG_SERVICE_PORT: ${CONFIG_SERVICE_PORT}
+      CONFIG_SERVICE_USER: ${CONFIG_SERVICE_USER}
+      CONFIG_SERVICE_PASSWORD: ${CONFIG_SERVICE_PASSWORD}
+
+      EUREKA_SERVICE_URI: ${EUREKA_SERVICE_URI}
+
+      POSTGRESQL_DB_URL: ${POSTGRESQL_DB_URL}
+      POSTGRESQL_DB_USER: ${POSTGRESQL_DB_USER}
+      POSTGRESQL_DB_PASSWORD: ${POSTGRESQL_DB_PASSWORD}
+
+      DISCOVERY_SERVICE_PORT: ${DISCOVERY_SERVICE_PORT}
+      GATEWAY_SERVICE_PORT: ${GATEWAY_SERVICE_PORT}
+      PRODUCT_SERVICE_PORT: ${PRODUCT_SERVICE_PORT}
+      CART_SERVICE_PORT: ${CART_SERVICE_PORT}
+      ORDER_SERVICE_PORT: ${ORDER_SERVICE_PORT}
+      AUTH_SERVICE_PORT: ${AUTH_SERVICE_PORT}
+      CONSUMER_SERVICE_PORT: ${CONSUMER_SERVICE_PORT}
+    depends_on:
+      - postgres
+    ports:
+      - "8888:8888"
+    mem_limit: 512m
+
+  discovery-service:
+    image: jubastik/29_backend_t1
+    container_name: discovery-service
+    command: java -jar /app/discovery-service.jar
+    restart: unless-stopped
+    environment:
+      CONFIG_SERVICE_URI: ${CONFIG_SERVICE_URI}
+      CONFIG_SERVICE_USER: ${CONFIG_SERVICE_USER}
+      CONFIG_SERVICE_PASSWORD: ${CONFIG_SERVICE_PASSWORD}
+      DISCOVERY_SERVICE_PORT: ${DISCOVERY_SERVICE_PORT}
+
+      EUREKA_SERVICE_URI: ${EUREKA_SERVICE_URI}
+    depends_on:
+      - config-service
+    ports:
+      - "8761:8761"
+    mem_limit: 512m
+
+  gateway-service:
+    image: jubastik/29_backend_t1
+    container_name: gateway_service
+    command: java -jar /app/gateway-service.jar
+    restart: unless-stopped
+    environment:
+      CONFIG_SERVICE_URI: ${CONFIG_SERVICE_URI}
+      CONFIG_SERVICE_USER: ${CONFIG_SERVICE_USER}
+      CONFIG_SERVICE_PASSWORD: ${CONFIG_SERVICE_PASSWORD}
+      GATEWAY_SERVICE_PORT: ${GATEWAY_SERVICE_PORT}
+
+      EUREKA_SERVICE_URI: ${EUREKA_SERVICE_URI}
+    depends_on:
+      - discovery-service
+    ports:
+      - "8765:8765"
+    mem_limit: 512m
+
+  cart-service:
+    image: jubastik/29_backend_t1
+    container_name: cart-service
+    command: java -jar /app/cart-service.jar
+    restart: unless-stopped
+    environment:
+      CONFIG_SERVICE_URI: ${CONFIG_SERVICE_URI}
+      CONFIG_SERVICE_USER: ${CONFIG_SERVICE_USER}
+      CONFIG_SERVICE_PASSWORD: ${CONFIG_SERVICE_PASSWORD}
+      CART_SERVICE_PORT: ${CART_SERVICE_PORT}
+
+      EUREKA_SERVICE_URI: ${EUREKA_SERVICE_URI}
+
+      POSTGRESQL_DB_URL: ${POSTGRESQL_DB_URL}
+      POSTGRESQL_DB_USER: ${POSTGRESQL_DB_USER}
+      POSTGRESQL_DB_PASSWORD: ${POSTGRESQL_DB_PASSWORD}
+    depends_on:
+      - gateway-service
+    mem_limit: 512m
+
+  consumer-service:
+    image: jubastik/29_backend_t1
+    container_name: consumer-service
+    command: java -jar /app/consumer-service.jar
+    restart: unless-stopped
+    environment:
+      CONFIG_SERVICE_URI: ${CONFIG_SERVICE_URI}
+      CONFIG_SERVICE_USER: ${CONFIG_SERVICE_USER}
+      CONFIG_SERVICE_PASSWORD: ${CONFIG_SERVICE_PASSWORD}
+      CONSUMER_SERVICE_PORT: ${CONSUMER_SERVICE_PORT}
+
+      EUREKA_SERVICE_URI: ${EUREKA_SERVICE_URI}
+
+      POSTGRESQL_DB_URL: ${POSTGRESQL_DB_URL}
+      POSTGRESQL_DB_USER: ${POSTGRESQL_DB_USER}
+      POSTGRESQL_DB_PASSWORD: ${POSTGRESQL_DB_PASSWORD}
+    depends_on:
+      - gateway-service
+    mem_limit: 512m
+
+  product-service:
+    image: jubastik/29_backend_t1
+    container_name: product-service
+    command: java -jar /app/product-service.jar
+    restart: unless-stopped
+    environment:
+      CONFIG_SERVICE_URI: ${CONFIG_SERVICE_URI}
+      CONFIG_SERVICE_USER: ${CONFIG_SERVICE_USER}
+      CONFIG_SERVICE_PASSWORD: ${CONFIG_SERVICE_PASSWORD}
+      PRODUCT_SERVICE_PORT: ${PRODUCT_SERVICE_PORT}
+
+      EUREKA_SERVICE_URI: ${EUREKA_SERVICE_URI}
+
+      POSTGRESQL_DB_URL: ${POSTGRESQL_DB_URL}
+      POSTGRESQL_DB_USER: ${POSTGRESQL_DB_USER}
+      POSTGRESQL_DB_PASSWORD: ${POSTGRESQL_DB_PASSWORD}
+    depends_on:
+      - gateway-service
+    mem_limit: 512m
+
+  order-service:
+    image: jubastik/29_backend_t1
+    container_name: order-service
+    command: java -jar /app/order-service.jar
+    restart: unless-stopped
+    environment:
+      CONFIG_SERVICE_URI: ${CONFIG_SERVICE_URI}
+      CONFIG_SERVICE_USER: ${CONFIG_SERVICE_USER}
+      CONFIG_SERVICE_PASSWORD: ${CONFIG_SERVICE_PASSWORD}
+      ORDER_SERVICE_PORT: ${ORDER_SERVICE_PORT}
+
+      EUREKA_SERVICE_URI: ${EUREKA_SERVICE_URI}
+
+      POSTGRESQL_DB_URL: ${POSTGRESQL_DB_URL}
+      POSTGRESQL_DB_USER: ${POSTGRESQL_DB_USER}
+      POSTGRESQL_DB_PASSWORD: ${POSTGRESQL_DB_PASSWORD}
+    depends_on:
+      - gateway-service
+    mem_limit: 512m
+
+
+volumes:
+  postgres_data:
