@@ -52,22 +52,33 @@ public class ProductService {
         return productRepository.save(product);
     }
 
-    public Product updateProduct(UUID productId, ProductDto clothesDTO) throws NotFoundException {
+    public Product updateProduct(UUID productId, ProductDto productDto) throws NotFoundException {
         Product clothes = productRepository.findById(productId).orElseThrow(() ->
                 new NotFoundException(String.format("Clothes with id %s is not found", productId)));
 
-        if (Objects.nonNull(clothesDTO.getColor()) && !clothesDTO.getColor().isEmpty()) {
-            clothes.setColor(clothesDTO.getColor());
+        if (Objects.nonNull(productDto.getName()) && !productDto.getName().isEmpty()) {
+            clothes.setName(productDto.getName());
         }
-        if (Objects.nonNull(clothesDTO.getSize())) {
-            clothes.setSize(clothesDTO.getSize());
+        if (Objects.nonNull(productDto.getDescription()) && !productDto.getDescription().isEmpty()) {
+            clothes.setDescription(productDto.getDescription());
         }
-        if (Objects.nonNull(clothesDTO.getCount()) && clothesDTO.getCount() >= 0) {
-            clothes.setCount(clothesDTO.getCount());
+        if (Objects.nonNull(productDto.getColor()) && !productDto.getColor().isEmpty()) {
+            clothes.setColor(productDto.getColor());
         }
-
-        if (Objects.isNull(clothesDTO.getPrice()) || clothesDTO.getPrice() > 0) {
-            clothes.setPrice(clothesDTO.getPrice());
+        if (Objects.nonNull(productDto.getSize())) {
+            clothes.setSize(productDto.getSize());
+        }
+        if (Objects.nonNull(productDto.getCount()) && productDto.getCount() >= 0) {
+            clothes.setCount(productDto.getCount());
+        }
+        if (Objects.isNull(productDto.getPrice()) || productDto.getPrice() > 0) {
+            clothes.setPrice(productDto.getPrice());
+        }
+        if (Objects.nonNull(productDto.getCategory()) && !productDto.getCategory().isEmpty()) {
+            clothes.setCategory(productDto.getCategory());
+        }
+        if (Objects.nonNull(productDto.getBrand()) && !productDto.getBrand().isEmpty()) {
+            clothes.setBrand(productDto.getBrand());
         }
 
 
