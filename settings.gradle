@@ -1,5 +1,5 @@
 rootProject.name = 't1-corporative-marketplace'
-//include 'auth-service'
+include 'auth-service'
 include 'cart-service'
 include 'config-service'
 include 'consumer-service'
@@ -7,5 +7,7 @@ include 'discovery-service'
 include 'gateway-service'
 include 'order-service'
 include 'product-service'
-
+include 'admin-service'
+include 'manager-service'
+include 'manager-service'
 

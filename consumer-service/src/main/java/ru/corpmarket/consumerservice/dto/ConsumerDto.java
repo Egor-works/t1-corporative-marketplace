@@ -3,6 +3,7 @@ package ru.corpmarket.consumerservice.dto;
 
 import lombok.*;
 
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -18,5 +19,5 @@ public class ConsumerDto {
 
     private String name;
 
-    private Integer coins;
+    private Long coinsId;
 }

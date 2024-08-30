@@ -22,6 +22,14 @@ spring:
               - GET
               - POST
 
+security:
+  jwt:
+    uri: /auth/**
+    header: Authorization
+    prefix: Bearer
+    expirationMilliseconds: 300000
+    secret: secretKey
+
 zuul:
   ignoredServices: '*'
   host:
@@ -44,9 +52,25 @@ zuul:
       serviceId: order-service
       stripPrefix: false
 
+    auth-server:
+      path: /auth/**
+      serviceId: auth-service
+      stripPrefix: false
+      sensitive-headers: Cookie,Set-Cookie
+
     consumer-server:
       path: /consumers/**
       serviceId: consumer-service
+      stripPrefix: false
+
+    manager-server:
+      path: /managers/**
+      serviceId: manager-service
+      stripPrefix: false
+
+    admin-server:
+      path: /admins/**
+      serviceId: admin-service
       stripPrefix: false
 
 server:

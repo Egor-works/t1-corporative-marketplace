@@ -33,13 +33,17 @@ dependencies {
 
     implementation "org.springframework.boot:spring-boot-starter-web:2.3.2.RELEASE"
     implementation "org.springframework.boot:spring-boot-starter-actuator:2.3.2.RELEASE"
+    // https://mvnrepository.com/artifact/io.minio/minio
+    implementation 'io.minio:minio:7.1.0'
+
+
     implementation "org.springframework.boot:spring-boot-starter-data-jpa"
     implementation "org.springframework.cloud:spring-cloud-starter-config"
     implementation "org.springframework.cloud:spring-cloud-starter-openfeign"
     implementation "org.springframework.cloud:spring-cloud-starter-netflix-eureka-client"
     implementation "org.springframework.cloud:spring-cloud-starter-sleuth"
     implementation "org.springframework.cloud:spring-cloud-starter-netflix-hystrix"
-    implementation "org.postgresql:postgresql:42.2.5"
+    implementation 'org.postgresql:postgresql:42.7.2'
     testImplementation "junit:junit:4.1"
     implementation 'org.springframework.cloud:spring-cloud-starter-bootstrap:3.0.3'
     implementation 'com.darylteo.gradle:javassist-plugin:0.4.1'

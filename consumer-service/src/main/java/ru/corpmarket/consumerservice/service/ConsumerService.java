@@ -36,19 +36,18 @@ public class ConsumerService {
     }
 
     public Consumer saveCustomer(ConsumerDto consumerDto) throws NotUniqueEmailException {
-        try {
-            Consumer customer = new Consumer();
-            customer.setEmail(consumerDto.getEmail());
-            customer.setPassword(bCryptPasswordEncoder.encode(consumerDto.getPassword()));
-            customer.setName(consumerDto.getName());
-            customer.setPhoneNumber(consumerDto.getPhoneNumber());
-            customer.setCoins(consumerDto.getCoins());
-            return consumerRepository.save(customer);
-        }
-        catch (Exception e) {
+        if (consumerRepository.findCustomerByEmail(consumerDto.getEmail()).isPresent())
             throw new NotUniqueEmailException(
-                    String.format("User with email %s is already exists", consumerDto.getEmail()));
-        }
+                String.format("User with email %s is already exists", consumerDto.getEmail()));
+        Consumer customer = new Consumer();
+        customer.setEmail(consumerDto.getEmail());
+        customer.setPassword(bCryptPasswordEncoder.encode(consumerDto.getPassword()));
+        customer.setName(consumerDto.getName());
+        customer.setPhoneNumber(consumerDto.getPhoneNumber());
+        customer.setCoinsId(consumerDto.getCoinsId());
+        return consumerRepository.save(customer);
+
+
     }
 
     public Consumer updateCustomer(UUID id, ConsumerDto updatedCustomer) throws NotFoundException {
@@ -65,8 +64,8 @@ public class ConsumerService {
         if (updatedCustomer.getPhoneNumber() != null) {
             consumer.setPhoneNumber(updatedCustomer.getPhoneNumber());
         }
-        if (updatedCustomer.getCoins() != null) {
-            consumer.setCoins(updatedCustomer.getCoins());
+        if (updatedCustomer.getCoinsId() != null) {
+            consumer.setCoinsId(updatedCustomer.getCoinsId());
         }
 
         return consumerRepository.save(consumer);

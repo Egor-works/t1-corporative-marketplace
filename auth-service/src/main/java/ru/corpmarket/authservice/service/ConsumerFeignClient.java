@@ -8,6 +8,6 @@ import ru.corpmarket.authservice.dto.EncodedPasswordDto;
 
 @FeignClient(name = "consumer-service")
 public interface ConsumerFeignClient {
-    @GetMapping
+    @GetMapping ("consumers/")
     ResponseEntity<EncodedPasswordDto> getEncodedPasswordByEmail(@RequestParam("email") String email);
 }

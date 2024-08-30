@@ -12,6 +12,14 @@ spring:
     password: ${POSTGRESQL_DB_PASSWORD}
     driver-class-name: org.postgresql.Driver
 
+minio:
+  url: ${MINIO_URL}
+  accessKey: ${MINIO_ACCESSKEY}
+  secretKey: ${MINIO_SECRETKEY}
+  bucket-name: ${MINIO_BUCKET}
+  secure: false
+  domen: ${MINIO_DOMAIN}
+
 server:
   servlet:
     context-path: /products

@@ -34,6 +34,7 @@ public class Consumer {
     @Column(name = "name")
     private String name;
 
-    @Column(name = "coins")
-    private Integer coins;
+    @Column(name = "coins_id")
+    private Long coinsId;
+
 }

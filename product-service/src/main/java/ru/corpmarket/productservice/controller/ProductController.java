@@ -4,15 +4,23 @@ package ru.corpmarket.productservice.controller;
 import javassist.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.io.IOUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import ru.corpmarket.productservice.dto.CreateOrderDto;
 import ru.corpmarket.productservice.dto.ProductDto;
 import ru.corpmarket.productservice.exception.RunOutProductException;
 import ru.corpmarket.productservice.model.Product;
+import ru.corpmarket.productservice.service.MinioService;
 import ru.corpmarket.productservice.service.ProductService;
 
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.List;
@@ -25,6 +33,8 @@ import java.util.UUID;
 public class ProductController {
 
     private final ProductService productService;
+    @Autowired
+    private MinioService minioService;
 
     @GetMapping(value = "/ping", produces = "application/json")
     @ResponseBody
@@ -85,4 +95,30 @@ public class ProductController {
         return ResponseEntity.ok().build();
     }
 
+
+
+    @PostMapping("/photo/upload")
+    public ResponseEntity<String> uploadFile(@RequestParam("file") MultipartFile file) {
+        try {
+            String fileName = minioService.uploadFile(file);
+            return ResponseEntity.ok("File uploaded successfully: " + fileName);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("File upload failed: " + e.getMessage());
+        }
+    }
+
+    @GetMapping("/photo/download/{fileName}")
+    public ResponseEntity<byte[]> downloadFile(@PathVariable String fileName) {
+        try {
+            InputStream fileStream = minioService.downloadFile(fileName);
+            byte[] fileBytes = IOUtils.toByteArray(fileStream);
+
+            return ResponseEntity.ok()
+                    .contentType(MediaType.APPLICATION_OCTET_STREAM)
+                    .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + fileName + "\"")
+                    .body(fileBytes);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+    }
 }
