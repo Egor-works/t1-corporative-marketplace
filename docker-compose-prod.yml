@@ -11,6 +11,19 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
+  minio:
+    image: minio/minio:latest
+    container_name: minio
+    environment:
+        MINIO_ROOT_USER: ${MINIO_ACCESSKEY}
+        MINIO_ROOT_PASSWORD: ${MINIO_SECRETKEY}
+    volumes:
+      - minio_data:/data     # Хранилище данных MinIO
+    ports:
+      - "9000:9000"    # Порт для доступа к S3 API
+      - "9001:9001"    # Порт для доступа к консоли управления MinIO
+    command: server /data --console-address ":9001"
+
   config-service:
     image: jubastik/29_backend_t1
     container_name: config_service
@@ -132,6 +145,11 @@ services:
       POSTGRESQL_DB_URL: ${POSTGRESQL_DB_URL}
       POSTGRESQL_DB_USER: ${POSTGRESQL_DB_USER}
       POSTGRESQL_DB_PASSWORD: ${POSTGRESQL_DB_PASSWORD}
+
+      MINIO_URL: ${MINIO_URL}
+      MINIO_ACCESSKEY: ${MINIO_ACCESSKEY}
+      MINIO_SECRETKEY: ${MINIO_SECRETKEY}
+      MINIO_BUCKET: ${MINIO_BUCKET}
     depends_on:
       - gateway-service
     mem_limit: 512m
@@ -159,3 +177,4 @@ services:
 
 volumes:
   postgres_data:
+  minio_data:
