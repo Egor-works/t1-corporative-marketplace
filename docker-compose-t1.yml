@@ -1,0 +1,180 @@
+services:
+  postgres:
+    image: postgres:15
+    container_name: postgres_db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRESQL_DB_USER}
+      POSTGRES_PASSWORD: ${POSTGRESQL_DB_PASSWORD}
+    ports:
+      - "47124:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  minio:
+    image: minio/minio:latest
+    container_name: minio
+    environment:
+      MINIO_ROOT_USER: ${MINIO_ACCESSKEY}
+      MINIO_ROOT_PASSWORD: ${MINIO_SECRETKEY}
+    volumes:
+      - minio_data:/data     # Хранилище данных MinIO
+    ports:
+      - "9000:9000"    # Порт для доступа к S3 API
+      - "9001:9001"    # Порт для доступа к консоли управления MinIO
+    command: server /data --console-address ":9001"
+
+  config-service:
+    image: 10.4.56.80:5000/29_backend_t1
+    container_name: config_service
+    command: java -jar /app/config-service.jar
+    restart: unless-stopped
+    environment:
+      CONFIG_SERVICE_PORT: ${CONFIG_SERVICE_PORT}
+      CONFIG_SERVICE_USER: ${CONFIG_SERVICE_USER}
+      CONFIG_SERVICE_PASSWORD: ${CONFIG_SERVICE_PASSWORD}
+
+      EUREKA_SERVICE_URI: ${EUREKA_SERVICE_URI}
+
+      POSTGRESQL_DB_URL: ${POSTGRESQL_DB_URL}
+      POSTGRESQL_DB_USER: ${POSTGRESQL_DB_USER}
+      POSTGRESQL_DB_PASSWORD: ${POSTGRESQL_DB_PASSWORD}
+
+      DISCOVERY_SERVICE_PORT: ${DISCOVERY_SERVICE_PORT}
+      GATEWAY_SERVICE_PORT: ${GATEWAY_SERVICE_PORT}
+      PRODUCT_SERVICE_PORT: ${PRODUCT_SERVICE_PORT}
+      CART_SERVICE_PORT: ${CART_SERVICE_PORT}
+      ORDER_SERVICE_PORT: ${ORDER_SERVICE_PORT}
+      AUTH_SERVICE_PORT: ${AUTH_SERVICE_PORT}
+      CONSUMER_SERVICE_PORT: ${CONSUMER_SERVICE_PORT}
+    depends_on:
+      - postgres
+    ports:
+      - "8888:8888"
+    mem_limit: 512m
+
+  discovery-service:
+    image: 10.4.56.80:5000/29_backend_t1
+    container_name: discovery-service
+    command: java -jar /app/discovery-service.jar
+    restart: unless-stopped
+    environment:
+      CONFIG_SERVICE_URI: ${CONFIG_SERVICE_URI}
+      CONFIG_SERVICE_USER: ${CONFIG_SERVICE_USER}
+      CONFIG_SERVICE_PASSWORD: ${CONFIG_SERVICE_PASSWORD}
+      DISCOVERY_SERVICE_PORT: ${DISCOVERY_SERVICE_PORT}
+
+      EUREKA_SERVICE_URI: ${EUREKA_SERVICE_URI}
+    depends_on:
+      - config-service
+    ports:
+      - "8761:8761"
+    mem_limit: 512m
+
+  gateway-service:
+    image: 10.4.56.80:5000/29_backend_t1
+    container_name: gateway_service
+    command: java -jar /app/gateway-service.jar
+    restart: unless-stopped
+    environment:
+      CONFIG_SERVICE_URI: ${CONFIG_SERVICE_URI}
+      CONFIG_SERVICE_USER: ${CONFIG_SERVICE_USER}
+      CONFIG_SERVICE_PASSWORD: ${CONFIG_SERVICE_PASSWORD}
+      GATEWAY_SERVICE_PORT: ${GATEWAY_SERVICE_PORT}
+
+      EUREKA_SERVICE_URI: ${EUREKA_SERVICE_URI}
+    depends_on:
+      - discovery-service
+    ports:
+      - "8765:8765"
+    mem_limit: 512m
+
+  cart-service:
+    image: 10.4.56.80:5000/29_backend_t1
+    container_name: cart-service
+    command: java -jar /app/cart-service.jar
+    restart: unless-stopped
+    environment:
+      CONFIG_SERVICE_URI: ${CONFIG_SERVICE_URI}
+      CONFIG_SERVICE_USER: ${CONFIG_SERVICE_USER}
+      CONFIG_SERVICE_PASSWORD: ${CONFIG_SERVICE_PASSWORD}
+      CART_SERVICE_PORT: ${CART_SERVICE_PORT}
+
+      EUREKA_SERVICE_URI: ${EUREKA_SERVICE_URI}
+
+      POSTGRESQL_DB_URL: ${POSTGRESQL_DB_URL}
+      POSTGRESQL_DB_USER: ${POSTGRESQL_DB_USER}
+      POSTGRESQL_DB_PASSWORD: ${POSTGRESQL_DB_PASSWORD}
+    depends_on:
+      - gateway-service
+    mem_limit: 512m
+
+  consumer-service:
+    image: 10.4.56.80:5000/29_backend_t1
+    container_name: consumer-service
+    command: java -jar /app/consumer-service.jar
+    restart: unless-stopped
+    environment:
+      CONFIG_SERVICE_URI: ${CONFIG_SERVICE_URI}
+      CONFIG_SERVICE_USER: ${CONFIG_SERVICE_USER}
+      CONFIG_SERVICE_PASSWORD: ${CONFIG_SERVICE_PASSWORD}
+      CONSUMER_SERVICE_PORT: ${CONSUMER_SERVICE_PORT}
+
+      EUREKA_SERVICE_URI: ${EUREKA_SERVICE_URI}
+
+      POSTGRESQL_DB_URL: ${POSTGRESQL_DB_URL}
+      POSTGRESQL_DB_USER: ${POSTGRESQL_DB_USER}
+      POSTGRESQL_DB_PASSWORD: ${POSTGRESQL_DB_PASSWORD}
+    depends_on:
+      - gateway-service
+    mem_limit: 512m
+
+  product-service:
+    image: 10.4.56.80:5000/29_backend_t1
+    container_name: product-service
+    command: java -jar /app/product-service.jar
+    restart: unless-stopped
+    environment:
+      CONFIG_SERVICE_URI: ${CONFIG_SERVICE_URI}
+      CONFIG_SERVICE_USER: ${CONFIG_SERVICE_USER}
+      CONFIG_SERVICE_PASSWORD: ${CONFIG_SERVICE_PASSWORD}
+      PRODUCT_SERVICE_PORT: ${PRODUCT_SERVICE_PORT}
+
+      EUREKA_SERVICE_URI: ${EUREKA_SERVICE_URI}
+
+      POSTGRESQL_DB_URL: ${POSTGRESQL_DB_URL}
+      POSTGRESQL_DB_USER: ${POSTGRESQL_DB_USER}
+      POSTGRESQL_DB_PASSWORD: ${POSTGRESQL_DB_PASSWORD}
+
+      MINIO_URL: ${MINIO_URL}
+      MINIO_ACCESSKEY: ${MINIO_ACCESSKEY}
+      MINIO_SECRETKEY: ${MINIO_SECRETKEY}
+      MINIO_BUCKET: ${MINIO_BUCKET}
+    depends_on:
+      - gateway-service
+    mem_limit: 512m
+
+  order-service:
+    image: 10.4.56.80:5000/29_backend_t1
+    container_name: order-service
+    command: java -jar /app/order-service.jar
+    restart: unless-stopped
+    environment:
+      CONFIG_SERVICE_URI: ${CONFIG_SERVICE_URI}
+      CONFIG_SERVICE_USER: ${CONFIG_SERVICE_USER}
+      CONFIG_SERVICE_PASSWORD: ${CONFIG_SERVICE_PASSWORD}
+      ORDER_SERVICE_PORT: ${ORDER_SERVICE_PORT}
+
+      EUREKA_SERVICE_URI: ${EUREKA_SERVICE_URI}
+
+      POSTGRESQL_DB_URL: ${POSTGRESQL_DB_URL}
+      POSTGRESQL_DB_USER: ${POSTGRESQL_DB_USER}
+      POSTGRESQL_DB_PASSWORD: ${POSTGRESQL_DB_PASSWORD}
+    depends_on:
+      - gateway-service
+    mem_limit: 512m
+
+
+volumes:
+  postgres_data:
+  minio_data:
