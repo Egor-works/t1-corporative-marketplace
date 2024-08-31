@@ -18,7 +18,6 @@ minio:
   secretKey: ${MINIO_SECRETKEY}
   bucket-name: ${MINIO_BUCKET}
   secure: false
-  domen: ${MINIO_DOMAIN}
 
 server:
   servlet:
